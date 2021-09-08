@@ -1,0 +1,245 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head> 
+    <meta charset="UTF-8">
+    <title>Utopia Application For Account</title>
+    <meta name="description" content="General RP"/> 
+    <meta name="author" content="Sandbox"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="cache-control" content="no-cache"> <!-- tells browser not to cache -->
+    <meta http-equiv="expires" content="0"> <!-- says that the cache expires 'now' -->
+    <meta http-equiv="pragma" content="no-cache"> <!-- says not to use cached stuff, if there is any -->
+    
+    <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.7.2/css/uikit.min.css" />
+    <link rel="stylesheet"  href="webres/css/json.css" />
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.7.2/js/uikit.min.js" ></script>
+    <script src="webres/js/sha256.js"></script>
+    <script src="webres/js/oidcrpbase.min.js"></script>
+    <script src="webres/config.js"></script>
+    <style>
+        .uk-button {
+            text-transform: none;
+            font-weight: bold;
+        }
+        footer {
+            background: black !important;
+        }
+    </style> 
+</head>
+<body>
+<noscript>
+    <div class="uk-alert uk-alert-danger uk-alert-large uk-text-large"><i class="uk-icon-exclamation-triangle"></i> In order to use this website you must enable the JavaScript option in your web browser. Please refer to your web browser's help instructions on how to do this.</div>
+</noscript>
+
+<div class="uk-height-viewport uk-margin-left uk-margin-right">
+    <h2 class="uk-text-center">Application For Account</h2>           
+    
+    <h3>To issue an account we must verify your details</h3>
+    <h3>The fastest way to do this is to sign in to your online bank who will have already verified you.</h3>
+    <h3>Click Start to select your bank through our trusted partner service.</h3>
+    <div class="uk-margin-top">
+        <button id="btn_startauth" class="uk-button uk-button-primary uk-border-rounded" type="button">Start</button>
+    </div>
+    
+    <div id="divres"class="uk-margin-top" style="display:none">
+        <form id="formres" class="uk-form-horizontal uk-margin-small-bottom uk-margin-left">
+            <h4>Claims</h4>
+            <div class="uk-margin">
+                <label for="userid" class="uk-form-label">ID</label>
+                <input type="text" id="userid" name="userid" readonly class="uk-input uk-form-width-large"/>
+            </div>
+            <div id="field_name" class="uk-margin">
+                <label for="username" class="uk-form-label">Name</label>
+                <input type="text" id="username" name="username" readonly class="uk-input uk-form-width-large"/>
+            </div>
+            <div id="field_email" class="uk-margin">
+                <label for="useremail" class="uk-form-label">Email</label>
+                <input type="text" id="useremail" name="useremail" readonly class="uk-input uk-form-width-large"/>
+            </div>
+            <div id="field_mobile" class="uk-margin">
+                <label for="usermobile" class="uk-form-label">Mobile</label>
+                <input type="text" id="usermobile" name="usermobile" readonly class="uk-input uk-form-width-large"/>
+            </div>
+            <div id="field_dob" class="uk-margin">
+                <label for="userdob" class="uk-form-label">Date of birth</label>
+                <input type="text" id="userdob" name="userdob" readonly class="uk-input uk-form-width-large"/>
+            </div>
+            <div id="field_address" class="uk-margin">
+                <label for="useraddress" class="uk-form-label">Address</label>
+                <input type="text" id="useraddress" name="useraddress" readonly class="uk-input uk-form-width-large"/>
+            </div>
+        </form>
+        <button id="btn_details" class="uk-button uk-button-primary uk-border-rounded uk-button-small" uk-toggle="target: #divdetails" type="button" >Details...</button> <br>
+    </div> 
+    <div id="divdetails" hidden class="uk-child-width-1-2@m uk-grid-small uk-grid-match" uk-grid >
+        <div>
+            <div class="uk-card uk-card-default uk-card-body">
+                <h3 class="uk-card-title">ID Token</h3>
+                <div id="dividtoken">
+                    
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="uk-card uk-card-default uk-card-body">
+                <h3 class="uk-card-title">Attributes</h3>
+                <div id="divattr">
+                </div>
+            </div>
+        </div>
+    </div>
+                 
+    
+    <footer class="footer-container uk-margin-top uk-padding uk-padding-remove-horizontal">
+        <div class="uk-margin-left uk-margin-right uk-light" >  
+            Sandbox v1.2 2021
+        </div>
+    </footer>        
+</div>
+
+<div  uk-modal="bg-close: false;" id="dlg_config">
+<div class="uk-modal-dialog uk-modal-body" >
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+    <h2 class="uk-modal-title">Configuration</h2>
+    <form id="form-config" class="uk-form-stacked">
+        <span class= "uk-text-bold">Endpoints and credentials&nbsp;&nbsp;&nbsp;
+        <button class="uk-button uk-button-default uk-button-small" uk-toggle="target: #divconfig" type="button">...</button>
+        </span>
+        <div id="divconfig" hidden class="uk-margin-left uk-box-shadow-small">
+            <div class="uk-form-controls">
+                <label for="provissuer" class="uk-form-label">Token Issuer*</label>
+                <input type="url" id="provissuer" name="provissuer" placeholder="Token issuer URI" class="uk-input uk-form-width-large" maxlength="128" value="" required/>
+            </div>
+            <div class="uk-form-controls">
+                <label for="authnurl" class="uk-form-label">Authentication URL*</label>
+                <input type="url" id="authnurl" name="baseurl" placeholder="Authentication endpoint" class="uk-input uk-form-width-large" maxlength="128" value="" required/>
+            </div>
+            <div class="uk-form-controls">
+                <label for="tokenurl" class="uk-form-label">Token endpoint*</label>
+                <input type="url" id="tokenurl" name="tokenurl" placeholder="JWKS endpoint" class="uk-input uk-form-width-large" maxlength="128" value="" required/>
+            </div>
+            <div class="uk-form-controls">
+                <label for="profileurl" class="uk-form-label">Profile endpoint*</label>
+                <input type="url" id="profileurl" name="profileurl" placeholder="Profile endpoint" class="uk-input uk-form-width-large" maxlength="128" value="" required/>
+            </div>
+            
+            
+            <div class="uk-form-controls">
+                <label for="jwksurl" class="uk-form-label">Provider JWKS endpoint*</label>
+                <input type="url" id="jwksurl" name="jwksurl" placeholder="JWKS endpoint" class="uk-input uk-form-width-large" maxlength="128" value="" required/>
+            </div>
+                  <!--       
+            <div class="uk-form-controls">
+                <label for="ciba_url" class="uk-form-label">Provider CIBA endpoint</label>
+                <input type="url" id="ciba_url" name="ciba_url"  class="uk-input uk-form-width-large" maxlength="128" value="" />
+                
+            </div>  
+                        
+            <div class="uk-form-controls">
+                <label for="oauth_server" class="uk-form-label">Backend server*</label>
+                <input type="url" id="oauth_server" name="oauth_server"  class="uk-input uk-form-width-large" maxlength="128" value="" required/>
+                <p class="uk-text-muted hint uk-margin-remove-top uk-margin-small-bottom uk-margin-left">URI of server to handle form post_response mode.</p>
+            </div>  
+            
+            --!>
+            
+            <div class="uk-form-controls">
+                <label for="oauth_clientid" class="uk-form-label">Client ID*</label>
+                <input type="text" id="oauth_clientid" name="oauth_clientid" placeholder="OAuth client ID" class="uk-input uk-form-width-large" maxlength="128" value="" required/>
+            </div>
+
+
+        </div>   
+        <hr class="uk-margin-small-bottom"> 
+        <p class= "uk-text-bold uk-margin-remove-top">OAuth2/ OIDC options</p>
+        <div class="uk-form-controls uk-margin-bottom">
+            <label for="idp_hint" class="uk-form-label">Preferred Provider</label>
+            <input type="text" id="idp_hint" name="idp_hint" class="uk-input uk-form-width-large" maxlength="128" value=""/>
+            <p class="uk-text-muted hint uk-margin-remove-top uk-margin-small-bottom uk-margin-left">
+            One or more Providers from the Hub settings in Desk. Separate multiple Providers with a space. Leave blank for all Providers. 
+            </p>
+        </div> 
+        <hr>   
+        <div class="uk-form-controls uk-margin-bottom">
+             <input class="uk-checkbox" type="checkbox" id="useoauth2" name="useoauth2" />
+             <label>Use OAuth2 in place of OIDC</label>
+        </div>   
+        <div class="uk-form_controls uk-margin-bottom">
+            <label for="request_mode" class="uk-form-label">OIDC/OAuth2 Flow</label>
+            <select id="request_mode" name="request_mode" class="uk-form-width-large uk-select" required>
+                <option  value="basic">Basic</option>
+                <option  value="implicit">Implicit</option>
+                <option  value="pkce">PKCE</option>
+                <option  value="device">Device</option>
+                <option  value="ciba">CIBA MODRNA</option>
+            </select>
+            
+            <label for="response_mode" class="uk-form-label">Response mode</label>
+            <select id="response_mode" name="response_mode" class="uk-form-width-large uk-select">
+                <option  value="">Default</option>
+                <option  value="fragment">Fragment (URL hash)</option>
+                <option  value="query">Query string</option>
+                <option  value="form_post">Form Post (server to server only)</option>
+                <option  value="query.jwt">Query string JWT</option>
+                <option  value="fragment.jwt">Fragment JWT</option>
+                <option  value="form_post.jwt">Form POST JWT</option>
+                <option  value="jwt">Default JWT (query string)</option>
+                <option  value="web_message">Web message</option>
+            </select>
+            
+            <label for="window_type" class="uk-form-label">Hub window type</label>
+            <select id="window_type" name="window_type" class="uk-form-width-large uk-select">
+            	<option  value="_default">browser default</option>
+                <option  value="_tab">new tab</option>
+                <option  value="_blank">Blank small</option>
+                <option  value="_self">Redirect</option>
+                <option  value="_blank_m">Blank medium</option>
+                <option  value="_blank_l">Blank large</option>
+            </select>
+            
+        </div>
+        <div class="uk-form-controls uk-margin-bottom">
+            <label for="oauth_scope" class="uk-form-label">Scopes*<span class="uk-text-muted hint"> (space delimited)</span></label>
+            <input type="text" id="oauth_scope" name="oauth_scope" placeholder="e.g. profile email" class="uk-input uk-form-width-large" maxlength="128" value="" required/>
+        </div>   
+        <div class="uk-form-controls uk-margin-bottom">
+             <input class="uk-checkbox" type="checkbox" id="usepost" name="usepost" />
+             <label>Use form POST in place of simple redirect</label>
+             <p class="uk-text-muted hint uk-margin-remove-top uk-margin-small-bottom">(Applies to the authorization request.)</p>
+             <input class="uk-checkbox" type="checkbox" id="usejwt" name="usejwt" />
+             <label>Use signed JWT in place of form POST fields</label>
+        </div>
+            
+        <div class="uk-form-controls uk-margin-bottom">
+            <label for="acr_values" class="uk-form-label">ACR value<span class="uk-text-muted hint"> (Optional) Use this to specify the Verification level required.<br>For permitted value, check the Provider's discovery endpoint <a id="discep" href="discep" target="_blank">here...</a></span></label>
+            <input type="text" id="acr_values" name="acr_values"  class="uk-input uk-form-width-large" maxlength="128" value=""/>
+        </div>
+        <hr>
+        <div class="uk-form-controls uk-margin-bottom uk-margin-top">
+            <label class="uk-form-label">Form fields to display</label>
+            <input class="uk-checkbox" type="checkbox" id="form_name" name="form_name" />
+            <label>Name</label>
+            <input class="uk-checkbox" type="checkbox" id="form_email" name="form_email" />
+            <label>Email</label>
+            <input class="uk-checkbox" type="checkbox" id="form_mobile" name="form_mobile" />
+            <label>Mobile</label>
+            <input class="uk-checkbox" type="checkbox" id="form_dob" name="form_dob" />
+            <label>Date of birth</label>
+            <input class="uk-checkbox" type="checkbox" id="form_address" name="form_address" />
+            <label>Home address</label>
+        </div>
+        <hr>
+        <div class="uk-form-controls uk-margin-bottom uk-margin-top">   
+            <button id="btn_persistcookie" class="uk-button uk-button-primary uk-width-1-1 uk-border-rounded" type="button" >Persist configuration (cookie)</button> <br><br>
+            <button id="btn_persistjson" class="uk-button uk-button-primary uk-width-1-1 uk-border-rounded" type="button">Persist configuration (JSON file)</button>
+        </div>
+        
+    </form>
+</div>
+</div>
+
+</body>
+</html>
+

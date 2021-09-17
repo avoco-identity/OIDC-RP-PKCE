@@ -1,0 +1,32 @@
+var config={
+  //Authorization Server (oauth2/auth endpoint)
+  "authnurl": "https://oidchub.example.com/api/oauth2/auth",
+  //Access token (oauth2/token endpoint) for the Hub or IdP. 
+  "tokenurl": "https://oidchub.example.com/api/oauth2/token",
+  //claims are returned in an ID Token and are also available through the /oauth2/userinfo endpoint
+  "profileurl": "https://oidchub.example.com/api/oauth2/userinfo",
+  "jwksurl": "https://oidchub.example.com/api/IKBdLg11z8DhX4k4qypkwyQOjK/jwks",
+  "provissuer": "https://oidchub.example.com/api/IKBdLg11z8DhX4k4qypkwyQOjK",
+  //client id It identifies the client and must match the value preregistered.
+  "oauth_clientid": "W0ZkaM78mbNNoXETsl5zgRhqvw",
+  //IdP Hint, set your prefered IdP, so the hub can either go directly to it or set ti as prefered.
+  "idp_hint": "",
+  //OAuth 2.0 – Authorization Code. Recommendation is to use code flow with (PKCE) in a public client. Implicit Grant Flow is no longer recomended.
+  "request_mode": "pkce",
+  //response use popup or redirect
+  "response_mode": "web_message",
+  //Choose flow: popup, tab or redirect. (Redirect is not recomended for complex pages)
+  "window_type": "_default",
+  //The basic (and required) scope for OIDC is openid, aditional agreed scopes are set bellow
+  "oauth_scope": "profile email phone address",
+  //set to false to get an OIDC Identity token.
+  "oauth": true,
+  //Fill these attribute fileds on webpage.
+  "fields": {
+    "name": true,
+    "email": true,
+    "mobile": true,
+    "dob": true,
+    "address": true
+  }
+}

@@ -79,6 +79,8 @@ var App = {
        return '';
     },
     
+    
+    
     getRandomString: function (length) {
         var charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         var i, values, result = '';
@@ -108,6 +110,8 @@ var App = {
     
     // returns callback URL - current window URL, without query string or hash
     getCallback : function () {
+    	
+    	//default redirect_uri callback
         return window.location.href.split("?")[0].split("#")[0];
     },
     
@@ -210,7 +214,7 @@ var App = {
         let hostname;
 
         // find & remove protocol (http, ftp, etc.) and get hostname
-        if (url.indexOf("://") > -1) {
+        if (url.indexOf('://') > -1) {
             hostname = url.split('/')[2];
         } else {
             hostname = url.split('/')[0];
@@ -234,6 +238,7 @@ var App = {
         $('#divattr').html ('');
     }
 };
+//End APP
 
 
 var Settings= {
@@ -263,8 +268,7 @@ var Settings= {
             settings.oauth_scope = $('#oauth_scope').val();
             
             settings.oauth = $('#useoauth2').is(':checked') ? true : false;
-            settings.usepost = $('#usepost').is(':checked') ? true : false;
-            settings.usejwt = $('#usejwt').is(':checked') ? true : false;
+
             settings.acr_values = $('#acr_values').val();
             
             settings.fields = {};
@@ -306,9 +310,7 @@ var Settings= {
         $('#window_type').val(this.options.window_type);
         
         $('#oauth_scope').val(this.options.oauth_scope);
-        
-        $('#usepost').prop('checked', this.options.usepost);
-        $('#usejwt').prop('checked', this.options.usejwt);
+
         $('#acr_values').val(this.options.acr_values);
 
         if (this.options.fields){
@@ -387,7 +389,12 @@ var OAuth = {
         }});      
     
     },
-    startAuth: function (){
+
+    
+    startAuth: function (idpselectbutton){
+    	if (idpselectbutton === undefined) {
+    		idpselectbutton = '';
+  		} 
         // start authorization code flow
         
         sessionStorage.state = App.getRandomString(32); // verify this matches the value returned in authorization code response
@@ -424,21 +431,16 @@ var OAuth = {
         qs += '&response_type=code';
         qs += '&code_challenge=' + b64_hash + '&code_challenge_method=S256';
             
-        
-        if (settings.idp_hint.length){
+        //get idp_hint preferred provider
+        if (idpselectbutton !== '' && idpselectbutton !== undefined){
+        	qs += '&idp_hint=' + idpselectbutton;
+        }
+        else if (settings.idp_hint.length){
             qs += '&idp_hint=' + settings.idp_hint;
         }
         
         var url = settings.authnurl +'?' + qs;
-        if (settings.usepost){
-            qs += '&callback=' + encodeURIComponent (App.getCallback());
-            qs += '&provurl=' + encodeURIComponent (settings.authnurl);
-            if (settings.usejwt){
-                qs += '&jwt=1'; 
-                qs += '&aud=' + settings.provissuer;       
-            }
-            url = settings.oauth_server + '?' + qs;
-        }
+
         if (null != settings.window_type){
             var h = 600, w = 600;
             var left = (screen.width/2)-(w/2);
@@ -454,7 +456,7 @@ var OAuth = {
                     var h = 600, w = 600;
                 } else if ('_blank_m' == settings.window_type){ //nw med
                     var h = 800, w = 800;
-                } else if ('_blank_l' == settings.window_type){ //nw l
+                } else if ('_blank_l' == settings.window_type){ //nw large
                     var h = 1000, w = 800;
                 }  else {
                     window.location.href = url;
@@ -475,7 +477,9 @@ var OAuth = {
         }
     }
 } 
-  
+
+
+//Display Setting page
 $(function (){
     // create modal
     App.dlgConfig = new UIkit.modal('#dlg_config');
@@ -585,7 +589,7 @@ $(function (){
         }
     });
      
-    
+    // function to Start authentication
     $('#btn_startauth').click (function(e) {
         e.preventDefault();
         
@@ -595,8 +599,27 @@ $(function (){
         OAuth.startAuth();
       
     });
+    // function to Start authentication class
+    $('.idp-btn-startauth').click(function(e) {
+        e.preventDefault();
         
- 
+        $('#divres').hide();
+        $('#formres')[0].reset(); // clear form
+        
+        // check if idp-name exists add class idp-name-THENAMEOFYOURIDP and idp-btn-startauth
+        if ($(this).attr('class').indexOf('idp-name-') != -1) {
+
+        	var idpname = (this.className.match(/(^|\s)(idp\-name\-[^\s]*)/) || [,,''])[2];
+        	idpname = idpname.substring(9);
+        	OAuth.startAuth(idpname); 
+	     }else{
+	     	OAuth.startAuth();  
+	     }
+        
+        
+    });
+        
+ // Edit Settings cfg key
     var map = {67: false, 70: false, 71: false}; // cfg
     $(document).keydown(function(e) {
         if (e.keyCode in map) {

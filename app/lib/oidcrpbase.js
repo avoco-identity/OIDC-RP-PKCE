@@ -644,7 +644,7 @@ $(function () {
 
 
     });
-        
+
     // Edit Settings cfg key
     var map = {67: false, 70: false, 71: false}; // cfg
     $(document).keydown(function (e) {

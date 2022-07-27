@@ -7,12 +7,10 @@
     <meta name="description" content="General RP"/> 
     <meta name="author" content=" Sandbox Copyright (c) AVOCO SECURE LTD. All rights reserved."/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.7.2/css/uikit.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.15.1/css/uikit.min.css" integrity="sha512-M3HETFyP1PXGgLx/iZADOaQXe5nHhzi0cfsQ2fKQgsRDJ+ZequdJNGFQQxlcPyCizSsj89y2dDpMugJHOQ4yfg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet"  href="webres/css/json.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" >
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.7.2/js/uikit.min.js" >
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.15.1/js/uikit.min.js" integrity="sha512-GVPTp+rBd1RLYXT3Mz/sFo7Ioir5KmbyYSAf7ePaYX3lJnnnfonI2aLdpfwAwSq4qPpwLLu8VE6fPvBawLk9Lg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- OIDC lib files -->
     <script src="lib/sha256.js">
     </script>
@@ -57,7 +55,7 @@
         </button>
       </div>
       <!-- User Attributes returned from OIDC HUB or OIDC IDP -->
-      <div id="divres"class="uk-margin-top" style="display:none">
+      <div id="divres" class="uk-margin-top" style="display:none">
         <form id="formres" class="uk-form-horizontal uk-margin-small-bottom uk-margin-left">
           <h4>Claims
           </h4>
@@ -116,7 +114,7 @@
       </div>
       <footer class="footer-container uk-margin-top uk-padding uk-padding-remove-horizontal">
         <div class="uk-margin-left uk-margin-right uk-light" >  
-          Sandbox v1.2 2021
+          Avoco Identity Sandbox v1.3 2021. Configuration press keys: <kbd>c</kbd> + <kbd>f</kbd> + <kbd>g</kbd>
         </div>
       </footer>        
     </div>
@@ -178,7 +176,7 @@
           </div> 
           <hr>   
           <div class="uk-form-controls uk-margin-bottom">
-            <input class="uk-checkbox" type="checkbox" id="useoauth2" name="useoauth2" />
+            <label for="useoauth2"></label><input class="uk-checkbox" type="checkbox" id="useoauth2" name="useoauth2" />
             <label>Use OAuth2 in place of OIDC
             </label>
           </div>   
@@ -247,19 +245,19 @@
           <div class="uk-form-controls uk-margin-bottom uk-margin-top">
             <label class="uk-form-label">Form fields to display
             </label>
-            <input class="uk-checkbox" type="checkbox" id="form_name" name="form_name" />
+            <label for="form_name"></label><input class="uk-checkbox" type="checkbox" id="form_name" name="form_name" />
             <label>Name
             </label>
-            <input class="uk-checkbox" type="checkbox" id="form_email" name="form_email" />
+            <label for="form_email"></label><input class="uk-checkbox" type="checkbox" id="form_email" name="form_email" />
             <label>Email
             </label>
-            <input class="uk-checkbox" type="checkbox" id="form_mobile" name="form_mobile" />
+            <label for="form_mobile"></label><input class="uk-checkbox" type="checkbox" id="form_mobile" name="form_mobile" />
             <label>Mobile
             </label>
-            <input class="uk-checkbox" type="checkbox" id="form_dob" name="form_dob" />
+            <label for="form_dob"></label><input class="uk-checkbox" type="checkbox" id="form_dob" name="form_dob" />
             <label>Date of birth
             </label>
-            <input class="uk-checkbox" type="checkbox" id="form_address" name="form_address" />
+            <label for="form_address"></label><input class="uk-checkbox" type="checkbox" id="form_address" name="form_address" />
             <label>Home address
             </label>
           </div>
